@@ -13,10 +13,15 @@ public class AddStudent extends AppCompatActivity {
 EditText ed1,ed2,ed3,ed4;
 AppCompatButton b1,b2;
 String getname,getadmno,getrollno,getcg;
+databasehelper dbhelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_student);
+        dbhelper=new databasehelper(this);
+        dbhelper.getWritableDatabase();
+
         ed1=(EditText) findViewById(R.id.na);
         ed2=(EditText) findViewById(R.id.admn);
         ed3=(EditText) findViewById(R.id.rno);
@@ -37,10 +42,16 @@ String getname,getadmno,getrollno,getcg;
                 getadmno=ed2.getText().toString();
                 getrollno=ed3.getText().toString();
                 getcg=ed4.getText().toString();
-                Toast.makeText(getApplicationContext(), getname, Toast.LENGTH_SHORT).show();
-                Toast.makeText(getApplicationContext(), getadmno, Toast.LENGTH_SHORT).show();
-                Toast.makeText(getApplicationContext(), getrollno, Toast.LENGTH_SHORT).show();
-                Toast.makeText(getApplicationContext(), getcg, Toast.LENGTH_SHORT).show();
+               boolean result=dbhelper.insertdata(getname,getrollno,getadmno,getcg);
+               if(result==true)
+               {
+                   Toast.makeText(getApplicationContext(),"successfully inserted",Toast.LENGTH_LONG).show();
+
+               }
+             else
+               {
+                   Toast.makeText(getApplicationContext(),"error",Toast.LENGTH_LONG).show();
+               }
             }
         });
     }
